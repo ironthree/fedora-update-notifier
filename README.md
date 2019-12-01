@@ -16,7 +16,11 @@ It also expects the FAS username of the current user being stored in a configura
 with these contents:
 
 ```toml
+[FAS]
 username = "FAS_USERNAME"
+
+[fedora-update-notifier]
+interests = ["package1", "package2"]
 ```
 
 This value is used to filter out updates that the user themselves has submitted, or has already commented on.

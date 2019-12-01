@@ -3,7 +3,7 @@ name = "fedora-update-notifier"
 description = "generate click-able notifications for fedora updates await!ing feedback"
 license = "MIT OR Apache-2.0"
 
-version = "0.0.1"
+version = "0.0.2"
 edition = "2018"
 
 authors = ["Fabio Valentini <decathorpe@gmail.com>"]
@@ -13,6 +13,7 @@ keywords = ["fedora", "bodhi", "updates", "feedback"]
 
 [dependencies]
 bodhi = "^0.0.7"
+clap = "^2.33.0"
 dirs = "^2.0.2"
 notify-rust = "^3"
 serde = "^1.0.103"
