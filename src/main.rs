@@ -462,7 +462,7 @@ This config file is expected to be in this format:
                 .iter()
                 .map(|b| b.nvr.as_ref())
                 .collect();
-            println!("- {}", &pending_update.title);
+            println!("- {}", &pending_update.alias);
             for build in builds {
                 println!("  - {}", build);
             }
