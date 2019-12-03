@@ -435,6 +435,11 @@ This config file is expected to be in this format:
             };
         }
     }
+
+    // deduplicate pending updates
+    pending_updates.sort_by(|a, b| a.alias.cmp(&b.alias));
+    pending_updates.dedup_by(|a, b| a.alias == b.alias);
+
     if !interests.is_empty() && !pending_updates.is_empty() {
         println!();
 
