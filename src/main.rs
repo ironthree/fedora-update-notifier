@@ -10,7 +10,7 @@ use bodhi::BodhiServiceBuilder;
 
 use notify_rust::Notification;
 
-use serde_derive::Deserialize;
+use serde::Deserialize;
 
 #[derive(Debug, PartialEq)]
 struct NVR<'a> {
@@ -75,10 +75,7 @@ fn parse_filename(nevrax: &str) -> Result<(&str, &str, &str, &str, &str), String
     let mut nevra_x: Vec<&str> = nevrax.rsplitn(2, '.').collect();
 
     if nevra_x.len() != 2 {
-        return Err(format!(
-            "Unexpected error when parsing dnf output: {}",
-            nevrax
-        ));
+        return Err(format!("Unexpected error when parsing dnf output: {}", nevrax));
     }
 
     // rsplitn returns things in reverse order
@@ -109,7 +106,7 @@ fn get_config() -> Result<FedoraConfig, String> {
         Some(path) => path,
         None => {
             return Err(String::from("Unable to determine $HOME."));
-        }
+        },
     };
 
     let config_path = home.join(".config/fedora.toml");
@@ -120,7 +117,7 @@ fn get_config() -> Result<FedoraConfig, String> {
             return Err(String::from(
                 "Unable to read configuration file from ~/.config/fedora.toml",
             ));
-        }
+        },
     };
 
     let config: FedoraConfig = match toml::from_str(&config_str) {
@@ -129,39 +126,46 @@ fn get_config() -> Result<FedoraConfig, String> {
             return Err(String::from(
                 "Unable to parse configuration file from ~/.config/fedora.toml",
             ));
-        }
+        },
     };
 
     Ok(config)
 }
 
-fn get_release() -> Result<String, String> {
+fn get_release() -> Result<FedoraRelease, String> {
     let output = match Command::new("rpm").arg("--eval").arg("%{fedora}").output() {
         Ok(output) => output,
         Err(error) => {
             return Err(format!("{}", error));
-        }
+        },
     };
 
     match output.status.code() {
         Some(x) if x != 0 => {
             return Err(String::from("Failed to run rpm."));
-        }
-        Some(_) => {}
+        },
+        Some(_) => {},
         None => {
             return Err(String::from("Failed to run rpm."));
-        }
+        },
     };
 
     let release_num = match std::str::from_utf8(&output.stdout) {
         Ok(result) => result,
         Err(error) => {
             return Err(format!("{}", error));
-        }
+        },
     }
     .trim();
 
     let release = format!("F{}", release_num);
+
+    let release = match FedoraRelease::try_from(release.as_str()) {
+        Ok(release) => release,
+        Err(error) => {
+            return Err(error.to_string());
+        },
+    };
 
     Ok(release)
 }
@@ -233,14 +237,14 @@ This config file is expected to be in this format:
         Some(username) => username,
         None => {
             return Err(String::from("No FAS username was specified."));
-        }
+        },
     };
 
     let interests = match interests {
         Some(interests) => interests,
         None => {
             return Err(String::from("No interests were specified."));
-        }
+        },
     };
 
     // query rpm for current release
@@ -258,24 +262,24 @@ This config file is expected to be in this format:
         Ok(output) => output,
         Err(error) => {
             return Err(format!("{}", error));
-        }
+        },
     };
 
     match output.status.code() {
         Some(x) if x != 0 => {
             return Err(String::from("Failed to query dnf."));
-        }
-        Some(_) => {}
+        },
+        Some(_) => {},
         None => {
             return Err(String::from("Failed to query dnf."));
-        }
+        },
     };
 
     let installed = match std::str::from_utf8(&output.stdout) {
         Ok(result) => result,
         Err(error) => {
             return Err(format!("{}", error));
-        }
+        },
     };
 
     let lines: Vec<&str> = installed.trim().split('\n').collect();
@@ -291,19 +295,19 @@ This config file is expected to be in this format:
         Ok(bodhi) => bodhi,
         Err(error) => {
             return Err(format!("{}", error));
-        }
+        },
     };
 
     let query = bodhi::query::UpdateQuery::new()
-        .releases(TryFrom::try_from(release.as_ref())?)
+        .releases(release)
         .content_type(ContentType::RPM)
         .status(UpdateStatus::Testing);
 
-    let updates = match query.query(&bodhi) {
+    let updates = match bodhi.query(&query) {
         Ok(updates) => updates,
         Err(error) => {
             return Err(format!("{}", error));
-        }
+        },
     };
 
     // filter out updates created by the current user
@@ -462,11 +466,7 @@ This config file is expected to be in this format:
 
         println!("Updates for interesting packages are available for testing:");
         for pending_update in pending_updates {
-            let builds: Vec<&str> = pending_update
-                .builds
-                .iter()
-                .map(|b| b.nvr.as_ref())
-                .collect();
+            let builds: Vec<&str> = pending_update.builds.iter().map(|b| b.nvr.as_ref()).collect();
             println!("- {}", &pending_update.alias);
             for build in builds {
                 println!("  - {}", build);
