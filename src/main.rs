@@ -303,7 +303,7 @@ This config file is expected to be in this format:
         .content_type(ContentType::RPM)
         .status(UpdateStatus::Testing);
 
-    let updates = match bodhi.query(&query) {
+    let updates = match bodhi.query(query) {
         Ok(updates) => updates,
         Err(error) => {
             return Err(format!("{}", error));

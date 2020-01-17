@@ -12,7 +12,7 @@ categories = ["command-line-utilities"]
 keywords = ["fedora", "bodhi", "updates", "feedback"]
 
 [dependencies]
-bodhi = "^0.1.2"
+bodhi = "^0.4.0"
 clap = "^2.33.0"
 dirs = "^2.0.2"
 notify-rust = "^3.6.3"
