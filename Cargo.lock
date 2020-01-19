@@ -112,9 +112,9 @@ checksum = "0d8c1fef690941d3e7788d328517591fecc684c084084702d6ff1641e993699a"
 
 [[package]]
 name = "bodhi"
-version = "0.4.0"
+version = "0.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6c39c07459a031835ab84b3430f2dcc6b9146f05983b7194c3096afe1fefa5fd"
+checksum = "e9ae9f49d3e32f4308bb50b0d2b91f7aada8cea74e951c447f59dc5539891620"
 dependencies = [
  "chrono",
  "failure",
@@ -365,7 +365,7 @@ dependencies = [
 
 [[package]]
 name = "fedora-update-notifier"
-version = "0.0.7"
+version = "0.0.9"
 dependencies = [
  "bodhi",
  "clap",
