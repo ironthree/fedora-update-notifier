@@ -2,6 +2,7 @@
 name = "fedora-update-notifier"
 description = "generate click-able notifications for fedora updates await!ing feedback"
 license = "MIT OR Apache-2.0"
+repository = "https://pagure.io/ironthree/fedora-update-notifier"
 
 version = "0.0.9"
 edition = "2018"
@@ -22,4 +23,5 @@ toml = "^0.5.5"
 [profile.release]
 codegen-units = 1
 lto = true
+opt-level = 3
 
