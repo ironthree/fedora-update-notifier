@@ -2,18 +2,19 @@
 name = "fedora-update-notifier"
 description = "generate click-able notifications for fedora updates await!ing feedback"
 license = "MIT OR Apache-2.0"
-repository = "https://pagure.io/ironthree/fedora-update-notifier"
 
 version = "0.0.9"
 edition = "2018"
 
 authors = ["Fabio Valentini <decathorpe@gmail.com>"]
 readme = "README.md"
+exclude = ["/.github/", "/rustfmt.toml"]
 categories = ["command-line-utilities"]
 keywords = ["fedora", "bodhi", "updates", "feedback"]
+repository = "https://github.com/ironthree/fedora-update-notifier"
 
 [dependencies]
-bodhi = "^0.5.0"
+bodhi = "^0.6"
 clap = "^2.33.0"
 dirs = "^2.0.2"
 notify-rust = "^3.6.3"
