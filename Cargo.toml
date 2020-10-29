@@ -3,7 +3,7 @@ name = "fedora-update-notifier"
 description = "generate click-able notifications for fedora updates await!ing feedback"
 license = "MIT OR Apache-2.0"
 
-version = "0.0.9"
+version = "0.1.0"
 edition = "2018"
 
 authors = ["Fabio Valentini <decathorpe@gmail.com>"]
