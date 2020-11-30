@@ -32,7 +32,7 @@ To compile the program, first install `cargo` and `dbus-devel`.
 Download the sources, and easily build and install the binary for yourself:
 
 ```console
-$ git clone https://pagure.io/ironthree/fedora-update-notifier.git
+$ git clone https://github.com/ironthree/fedora-update-notifier.git
 $ cd fedora-update-notifier
 $ cargo install --path .
 ```

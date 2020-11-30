@@ -299,7 +299,7 @@ This config file is expected to be in this format:
     };
 
     let query = bodhi::query::UpdateQuery::new()
-        .releases(release)
+        .releases(vec![release])
         .content_type(ContentType::RPM)
         .status(UpdateStatus::Testing);
 
