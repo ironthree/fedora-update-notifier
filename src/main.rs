@@ -6,7 +6,7 @@ use std::thread::sleep;
 use std::time::Duration;
 
 use bodhi::data::*;
-use bodhi::BodhiServiceBuilder;
+use bodhi::BodhiClientBuilder;
 
 use notify_rust::Notification;
 
@@ -170,7 +170,8 @@ fn get_release() -> Result<FedoraRelease, String> {
     Ok(release)
 }
 
-fn main() -> Result<(), String> {
+#[tokio::main]
+async fn main() -> Result<(), String> {
     let app = clap::App::new("fedora-update-notifier")
         .arg(
             clap::Arg::with_name("username")
@@ -291,19 +292,21 @@ This config file is expected to be in this format:
     }
 
     // query bodhi for packages in updates-testing
-    let bodhi = match BodhiServiceBuilder::default().build() {
+    let bodhi = match BodhiClientBuilder::default().build().await {
         Ok(bodhi) => bodhi,
         Err(error) => {
             return Err(format!("{}", error));
         },
     };
 
+    let releases = vec![release.clone()];
+
     let query = bodhi::query::UpdateQuery::new()
-        .releases(vec![release])
+        .releases(&releases)
         .content_type(ContentType::RPM)
         .status(UpdateStatus::Testing);
 
-    let updates = match bodhi.query(query) {
+    let updates = match bodhi.paginated_request(&query).await {
         Ok(updates) => updates,
         Err(error) => {
             return Err(format!("{}", error));

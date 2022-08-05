@@ -14,12 +14,13 @@ keywords = ["fedora", "bodhi", "updates", "feedback"]
 repository = "https://github.com/ironthree/fedora-update-notifier"
 
 [dependencies]
-bodhi = "^1.0"
-clap = "^2.33.0"
-dirs = "^3.0.1"
-notify-rust = "^4.0"
-serde = { version = "^1.0.104", features = ["derive"] }
-toml = "^0.5.5"
+bodhi = "2.0.1"
+clap = "2.33"
+dirs = "3"
+notify-rust = "4"
+serde = { version = "1.0.104", features = ["derive"] }
+tokio = { version = "1.14", features = ["macros", "rt-multi-thread"] }
+toml = "0.5.5"
 
 [profile.release]
 codegen-units = 1
