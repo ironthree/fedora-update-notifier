@@ -16,7 +16,7 @@ repository = "https://github.com/ironthree/fedora-update-notifier"
 [dependencies]
 bodhi = "2.0.1"
 clap = "2.33"
-dirs = "3"
+dirs = "4"
 notify-rust = "4"
 serde = { version = "1.0.104", features = ["derive"] }
 tokio = { version = "1.14", features = ["macros", "rt-multi-thread"] }
