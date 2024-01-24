@@ -13,6 +13,7 @@ use notify_rust::Notification;
 use serde::Deserialize;
 
 #[derive(Debug, PartialEq)]
+#[allow(clippy::upper_case_acronyms)]
 struct NVR<'a> {
     n: &'a str,
     v: &'a str,
@@ -111,7 +112,7 @@ fn get_config() -> Result<FedoraConfig, String> {
 
     let config_path = home.join(".config/fedora.toml");
 
-    let config_str = match read_to_string(&config_path) {
+    let config_str = match read_to_string(config_path) {
         Ok(string) => string,
         Err(_) => {
             return Err(String::from(
@@ -215,10 +216,7 @@ This config file is expected to be in this format:
     }
 
     let cli_username = matches.value_of("username");
-    let cli_interests: Option<Vec<&str>> = match matches.values_of("interests") {
-        Some(values) => Some(values.collect()),
-        None => None,
-    };
+    let cli_interests: Option<Vec<&str>> = matches.values_of("interests").map(|values| values.collect());
 
     if let Some(cli_username) = cli_username {
         username = Some(cli_username.to_owned());
@@ -351,7 +349,7 @@ This config file is expected to be in this format:
 
         for nvr in nvrs {
             if packages.contains(&nvr) {
-                installed_updates.push(&update);
+                installed_updates.push(update);
             }
         }
     }
@@ -410,7 +408,7 @@ This config file is expected to be in this format:
         }
 
         for nvr in &pending_nvrs {
-            if packages.contains(&nvr) {
+            if packages.contains(nvr) {
                 // update is already installed, skip it
                 continue;
             } else {
