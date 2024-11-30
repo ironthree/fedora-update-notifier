@@ -1,4 +1,8 @@
-# fedora-update-notifier
+# fedora-update-notifier (DEPRECATED)
+
+> [!WARNING]
+> This application no longer works as of bodhi-server 8.0.0 due to breaking
+> changes to / removal of the OpenID authentication endpoint.
 
 This is a small program that checks for fedora updates from the `updates-testing` repository that are installed on the
 current system, and creates a click-able desktop notification (via the `D-Bus` interface for notifications) that takes
